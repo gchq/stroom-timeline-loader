@@ -4,17 +4,20 @@ import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public class Config extends Configuration {
 
-    @NotEmpty
+    @Valid
+    @NotNull
+    @JsonProperty
     private String inputDirectory;
 
-    @JsonProperty
     public String getInputDirectory() {
         return inputDirectory;
     }
 
-    @JsonProperty
     public void setInputDirectory(String name) {
         this.inputDirectory = name;
     }
