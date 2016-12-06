@@ -59,11 +59,8 @@ public class DirectoryWatcher {
         Path inputDirectory = Paths.get(config.getInputDirectory());
         Path child = inputDirectory.resolve(inputFile.toPath());
 
-        boolean isFileTypeValid = isFileTypeValid(child);
-        Optional<String> fileData = readData(inputFile.toPath());
-
-        if (isFileTypeValid && fileData.isPresent()){
-           fileProcessor.processFile(fileData.get());
+        if(isFileTypeValid(child)){
+            fileProcessor.processFile(child.toString());
         }
         else{
             LOGGER.error("Unable to process file: {{}}", inputFile.toPath().toAbsolutePath().toString());
@@ -94,23 +91,6 @@ public class DirectoryWatcher {
 
         return true;
     }
-
-    private static Optional<String> readData(Path file){
-        String fileData = null;
-        try {
-            fileData = new String(Files.readAllBytes(file));
-        } catch( IOException e){
-            LOGGER.error("File processing failure! Cannot read file {{}}. Exception is: ",
-                    file.toAbsolutePath().toString(), e);
-        }
-        if(fileData != null){
-            return Optional.of(fileData);
-        }
-        else{
-            return Optional.empty();
-        }
-    }
-
 
     public boolean isWatching() {
         return isWatching;

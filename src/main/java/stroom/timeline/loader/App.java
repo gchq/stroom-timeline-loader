@@ -6,6 +6,7 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import stroom.timeline.loader.health.DirectoryWatcherHealthCheck;
+import stroom.timeline.loader.health.StaxParserHealthCheck;
 
 public class App extends Application<Config> {
 
@@ -28,10 +29,12 @@ public class App extends Application<Config> {
     @Override
     public void run(Config config, Environment environment) {
         injector = Guice.createInjector(new Module(config));
-        DirectoryWatcher directoryWatcher = injector.getInstance(DirectoryWatcher.class);
 
-        final DirectoryWatcherHealthCheck healthCheck = new DirectoryWatcherHealthCheck(directoryWatcher);
-        environment.healthChecks().register("DirectoryWatcher", healthCheck);
+        environment.healthChecks().register("DirectoryWatcher",
+                new DirectoryWatcherHealthCheck(injector.getInstance(DirectoryWatcher.class)));
+
+        environment.healthChecks().register("StaxParser",
+                new StaxParserHealthCheck(injector.getInstance(StaxParser.class)));
     }
 
 

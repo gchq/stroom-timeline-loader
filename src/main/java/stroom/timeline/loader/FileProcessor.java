@@ -2,5 +2,5 @@ package stroom.timeline.loader;
 
 @FunctionalInterface
 public interface FileProcessor {
-    void processFile(String fileData);
+    void processFile(String filePath);
 }
