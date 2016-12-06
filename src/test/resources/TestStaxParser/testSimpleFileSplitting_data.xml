@@ -1,0 +1,150 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<Events xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="file://xml/schema/accounting/events"
+        xsi:schemaLocation="file://xml/schema/accounting/events file://events-v2.2.1.xsd"
+        Version="2.2.1">
+  
+  <!-- Blacklisted connection 1 -->
+  <Event> 
+    <EventTime>
+      <TimeCreated>2010-01-01T02:03:36.000Z</TimeCreated>
+    </EventTime>
+    <EventSource>
+      <System>
+        <Name>Test</Name>
+        <Environment>Test</Environment>
+      </System>
+      <Client>
+        <IPAddress>1.1.1.1</IPAddress>
+      </Client>
+      <Generator>CSV</Generator>
+      <Device>
+        <IPAddress>123.123.123.123</IPAddress>
+        <HostName>some.server</HostName>
+        <MACAddress>00-00-00-00-00-00</MACAddress>
+        <Data Name="Designation" Value=""/>
+        <Data Name="Zone1" Value="Zone1"/>
+        <Data Name="Zone2" Value="Zone2"/>
+        <Data Name="Zone3" Value="Zone3"/>
+        <Data Name="Zone4" Value="Zone4"/>
+        <Data Name="Zone5" Value="Zone5"/>
+      </Device>
+      <User>
+        <Id>user3</Id>
+      </User>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 +0000"/>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 +00:00"/>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 Europe/London"/>
+    </EventSource>
+    <EventDetail>
+      <TypeId>Door</TypeId>
+      <Description>Some message 4</Description>
+      <Authenticate>
+        <Action>Logon</Action>
+        <Outcome>
+            <Success>false</Success>
+            <Description>Wrong PIN</Description>
+        </Outcome>
+        <LogonType>Interactive</LogonType>
+        <Data Name="FileNo" Value="2"/>
+        <Data Name="LineNo" Value="3"/>
+      </Authenticate>
+    </EventDetail>
+  </Event>
+  
+  <!-- Blacklisted connection 2 -->
+  <Event> 
+    <EventTime>
+      <TimeCreated>2010-01-01T02:03:37.000Z</TimeCreated>
+    </EventTime>
+    <EventSource>
+      <System>
+        <Name>Test</Name>
+        <Environment>Test</Environment>
+      </System>
+      <Client>
+        <IPAddress>2.2.2.2</IPAddress>
+      </Client>
+      <Generator>CSV</Generator>
+      <Device>
+        <IPAddress>123.123.123.123</IPAddress>
+        <HostName>some.server</HostName>
+        <MACAddress>00-00-00-00-00-00</MACAddress>
+        <Data Name="Designation" Value=""/>
+        <Data Name="Zone1" Value="Zone1"/>
+        <Data Name="Zone2" Value="Zone2"/>
+        <Data Name="Zone3" Value="Zone3"/>
+        <Data Name="Zone4" Value="Zone4"/>
+        <Data Name="Zone5" Value="Zone5"/>
+      </Device>
+      <User>
+        <Id>user3</Id>
+      </User>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 +0000"/>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 +00:00"/>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 Europe/London"/>
+    </EventSource>
+    <EventDetail>
+      <TypeId>Door</TypeId>
+      <Description>Some message 4</Description>
+      <Authenticate>
+        <Action>Logon</Action>
+        <Outcome>
+            <Success>false</Success>
+            <Description>Wrong PIN</Description>
+        </Outcome>
+        <LogonType>Interactive</LogonType>
+        <Data Name="FileNo" Value="2"/>
+        <Data Name="LineNo" Value="3"/>
+      </Authenticate>
+    </EventDetail>
+  </Event>
+
+  <!-- Allowed connection 1 -->
+  <Event> 
+    <EventTime>
+      <TimeCreated>2010-01-01T02:03:38.000Z</TimeCreated>
+    </EventTime>
+    <EventSource>
+      <System>
+        <Name>Test</Name>
+        <Environment>Test</Environment>
+      </System>
+      <Client>
+        <IPAddress>3.3.3.3</IPAddress>
+      </Client>
+      <Generator>CSV</Generator>
+      <Device>
+        <IPAddress>123.123.123.123</IPAddress>
+        <HostName>some.server</HostName>
+        <MACAddress>00-00-00-00-00-00</MACAddress>
+        <Data Name="Designation" Value=""/>
+        <Data Name="Zone1" Value="Zone1"/>
+        <Data Name="Zone2" Value="Zone2"/>
+        <Data Name="Zone3" Value="Zone3"/>
+        <Data Name="Zone4" Value="Zone4"/>
+        <Data Name="Zone5" Value="Zone5"/>
+      </Device>
+      <User>
+        <Id>user3</Id>
+      </User>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 +0000"/>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 +00:00"/>
+      <Data Name="LocalTime" Value="1 Jan 2010 02:03:36 Europe/London"/>
+    </EventSource>
+    <EventDetail>
+      <TypeId>Door</TypeId>
+      <Description>Some message 4</Description>
+      <Authenticate>
+        <Action>Logon</Action>
+        <Outcome>
+            <Success>false</Success>
+            <Description>Wrong PIN</Description>
+        </Outcome>
+        <LogonType>Interactive</LogonType>
+        <Data Name="FileNo" Value="2"/>
+        <Data Name="LineNo" Value="3"/>
+      </Authenticate>
+    </EventDetail>
+  </Event>
+</Events>

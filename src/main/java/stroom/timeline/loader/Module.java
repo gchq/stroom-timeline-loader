@@ -13,8 +13,9 @@ public class Module extends AbstractModule {
     }
     @Override
     protected void configure() {
-        bind(SaxParser.class);
+        bind(StaxParser.class);
         bind(DirectoryWatcher.class);
+        bind(Loader.class);
     }
 
     @Provides
@@ -23,7 +24,7 @@ public class Module extends AbstractModule {
     }
     @Provides
     @Singleton
-    public FileProcessor getSaxFileProcessor(SaxParser saxParser) {
-        return saxParser.getFileProcessor();
+    public FileProcessor getStaxFileProcessor(StaxParser staxParser) {
+        return staxParser.getFileProcessor();
     }
 }
