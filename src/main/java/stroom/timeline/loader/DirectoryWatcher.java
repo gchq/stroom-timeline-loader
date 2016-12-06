@@ -13,10 +13,12 @@ import java.util.*;
 @Singleton
 public class DirectoryWatcher {
     private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryWatcher.class);
+    private String watchedDirectory;
+    private String errorMessage = null;
 
     private Config config;
     private FileProcessor fileProcessor;
-    private boolean isWatchingEnabled = true;
+    private boolean isWatching = true;
 
     @Inject
     public DirectoryWatcher(Config config, FileProcessor fileProcessor){
@@ -25,28 +27,32 @@ public class DirectoryWatcher {
 
         File inputDirectory = Paths.get(config.getInputDirectory()).toFile();
         if(!inputDirectory.exists()){
-            throw new RuntimeException("Input directory does not exist! Tried to use: " + inputDirectory.toString());
+            isWatching = false;
+            errorMessage = "Input directory does not exist! Tried to use: " + inputDirectory.toString();
+            LOGGER.error(errorMessage);
         }
+        else {
+            watchedDirectory = inputDirectory.toString();
+            Runnable task = () -> {
+                LOGGER.info("Watching {} for new input.", config.getInputDirectory());
 
-        Runnable task = () -> {
-            LOGGER.info("Watching {} for new input.", config.getInputDirectory());
+                while (true) {
+                    File[] inputFiles = inputDirectory.listFiles();
+                    // Ordering by date created won't work if the volume of input files is too high,
+                    // because the timestamp resolution in the system isn't high enough.
+                    // We order by name. This places a requirement on the data coming in - it must be sequential.
+                    Arrays.sort(inputFiles, Comparator.comparing(File::getName));
 
-            while(isWatchingEnabled){
-                File[] inputFiles = inputDirectory.listFiles();
-                // Ordering by date created won't work if the volume of input files is too high,
-                // because the timestamp resolution in the system isn't high enough.
-                // We order by name. This places a requirement on the data coming in - it must be sequential.
-                Arrays.sort(inputFiles, Comparator.comparing(File::getName));
-
-                for(File file : inputFiles){
-                    processFile(file);
-                    file.delete();
+                    for (File file : inputFiles) {
+                        processFile(file);
+                        file.delete();
+                    }
                 }
-            }
-        };
+            };
 
-        Thread thread = new Thread(task);
-        thread.start();
+            Thread thread = new Thread(task);
+            thread.start();
+        }
     }
 
     private void processFile(File inputFile){
@@ -103,5 +109,18 @@ public class DirectoryWatcher {
         else{
             return Optional.empty();
         }
+    }
+
+
+    public boolean isWatching() {
+        return isWatching;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public String getWatchedDirectory() {
+        return watchedDirectory;
     }
 }
