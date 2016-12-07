@@ -6,4 +6,4 @@ server:
         type: http
         port: 8085
 
-inputDirectory: c:\Users\***REMOVED***\.timeline-loader\inputDirectory
+inputDirectory: /home/jc064522/.timeline-loader/inputDirectory
