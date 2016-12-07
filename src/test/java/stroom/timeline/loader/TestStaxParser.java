@@ -34,10 +34,19 @@ public class TestStaxParser {
 
         verify(mockLoader, times(3)).load(argument.capture());
         List<byte[]> results = argument.getAllValues();
-        // We need to know that each byte[] is different and as we expect
+        // We need to know that each byte[] is different and exclusive
         assertThat(new String(results.get(0)).contains("<TimeCreated>2010-01-01T02:03:36.000Z</TimeCreated>"), is(true));
+        assertThat(new String(results.get(0)).contains("<TimeCreated>2010-01-01T02:03:37.000Z</TimeCreated>"), is(false));
+        assertThat(new String(results.get(0)).contains("<TimeCreated>2010-01-01T02:03:38.000Z</TimeCreated>"), is(false));
+
+        assertThat(new String(results.get(1)).contains("<TimeCreated>2010-01-01T02:03:36.000Z</TimeCreated>"), is(false));
         assertThat(new String(results.get(1)).contains("<TimeCreated>2010-01-01T02:03:37.000Z</TimeCreated>"), is(true));
+        assertThat(new String(results.get(1)).contains("<TimeCreated>2010-01-01T02:03:38.000Z</TimeCreated>"), is(false));
+
+        assertThat(new String(results.get(2)).contains("<TimeCreated>2010-01-01T02:03:36.000Z</TimeCreated>"), is(false));
+        assertThat(new String(results.get(2)).contains("<TimeCreated>2010-01-01T02:03:37.000Z</TimeCreated>"), is(false));
         assertThat(new String(results.get(2)).contains("<TimeCreated>2010-01-01T02:03:38.000Z</TimeCreated>"), is(true));
+
 
     }
 }
