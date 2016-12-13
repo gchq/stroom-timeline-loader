@@ -16,6 +16,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.time.Instant;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Singleton
 public class StaxParser {
@@ -25,6 +28,7 @@ public class StaxParser {
     private Transformer transformer;
     private XMLInputFactory xmlInputFactory;
     private Loader loader;
+    final Pattern pattern = Pattern.compile("<TimeCreated>(.+?)</TimeCreated>");
 
     @Inject
     public StaxParser(Loader loader){
@@ -43,12 +47,25 @@ public class StaxParser {
             try (FileReader fileReader = new FileReader(filePath)) {
                 XMLStreamReader xsr = xmlInputFactory.createXMLStreamReader(fileReader);
 
-                xsr.nextTag(); // Advance to statements element
+                // The next tag will be an Event
+                xsr.nextTag();
                 while (xsr.nextTag() == XMLStreamConstants.START_ELEMENT) {
+                    // We stream the whole Event out to bytes
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     transformer.transform(new StAXSource(xsr), new StreamResult(baos));
+                    byte[] bytes = baos.toByteArray();
+
+                    // We need the TimeCreated so we'll regex it out
+                    final Matcher matcher = pattern.matcher(baos.toString());
+                    if(matcher.find()) {
+                        Instant timeCreated = Instant.parse(matcher.group(1));
+                        loader.load(timeCreated, bytes);
+                    }
+                    else {
+                        LOGGER.error("The following file could not be processed because the date could not be extracted: {}", filePath);
+                    }
+
                     incrementInputCount();
-                    loader.load(baos.toByteArray());
                 }
             } catch (XMLStreamException | TransformerException | IOException e) {
                 LOGGER.error("Unable to split out element!", e);
@@ -56,6 +73,7 @@ public class StaxParser {
         };
     }
 
+    //TODO Add a 'failed' count
 
     private void incrementInputCount(){
         inputCount++;

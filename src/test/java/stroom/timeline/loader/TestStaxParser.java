@@ -8,10 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -32,7 +34,7 @@ public class TestStaxParser {
         String testDataFileName = "src/test/resources/TestStaxParser/testSimpleFileSplitting_data.xml";
         fileProcessor.processFile(testDataFileName);
 
-        verify(mockLoader, times(3)).load(argument.capture());
+        verify(mockLoader, times(3)).load(any(), argument.capture());
         List<byte[]> results = argument.getAllValues();
         // We need to know that each byte[] is different and exclusive
         assertThat(new String(results.get(0)).contains("<TimeCreated>2010-01-01T02:03:36.000Z</TimeCreated>"), is(true));
