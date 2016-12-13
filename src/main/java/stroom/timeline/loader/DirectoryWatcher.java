@@ -36,7 +36,7 @@ public class DirectoryWatcher {
             Runnable task = () -> {
                 LOGGER.info("Watching {} for new input.", config.getInputDirectory());
 
-                while (true) {
+                while (isWatching) {
                     File[] inputFiles = inputDirectory.listFiles();
                     // Ordering by date created won't work if the volume of input files is too high,
                     // because the timestamp resolution in the system isn't high enough.
