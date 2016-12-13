@@ -19,16 +19,27 @@ repositories {
     mavenLocal()
 }
 
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        //This solves the issue with different gradle package names for the same set of classes implementing (different versions of) JSR-311.
+        substitute module('javax.ws.rs:jsr311-api') with module('javax.ws.rs:javax.ws.rs-api:2.0.1')
+    }
+}
+
 dependencies {
     // Core dependencies
-    compile 'stroom:stroom-timeline:1.0-SNAPSHOT'
-
+    compile ('stroom:stroom-timeline:1.0-SNAPSHOT'){
+        exclude group: 'com.sun.jersey', module:'jersey-server'
+    }
+    compile 'org.jhades:jhades:1.0.4'
     // Support dependencies
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'io.dropwizard:dropwizard-core:1.0.5'
     compile 'com.google.inject:guice:4.0'
 
     testCompile "org.mockito:mockito-core:2.+"
+    testCompile "net.bytebuddy:byte-buddy:1.5.8"
     testCompile 'junit:junit:4.12'
 }
 
