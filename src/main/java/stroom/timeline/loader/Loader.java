@@ -6,10 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import stroom.timeline.api.TimelineService;
 import stroom.timeline.api.TimelineServiceFactory;
-import stroom.timeline.hbase.HBaseConnectionImpl;
+import stroom.timeline.hbase.HBaseConnectionImplBuilder;
 import stroom.timeline.model.OrderedEvent;
 import stroom.timeline.model.Timeline;
-import stroom.timeline.properties.PropertyServiceImpl;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class Loader {
     public Loader(Config config){
         this.config = config;
 
-        timelineService = TimelineServiceFactory.getTimelineService(new HBaseConnectionImpl(new PropertyServiceImpl()));
+        timelineService = TimelineServiceFactory.getTimelineService(HBaseConnectionImplBuilder.instance().build());
         Optional<Timeline> timelineResult = timelineService.fetchTimeline(config.getTimeline());
         if(!timelineResult.isPresent()){
             throw new RuntimeException("Timeline does not exist!");
