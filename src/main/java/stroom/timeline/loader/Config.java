@@ -14,12 +14,39 @@ public class Config extends Configuration {
     @JsonProperty
     private String inputDirectory;
 
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String timeline;
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String timeCreatedXPath;
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String defaultElementNamespace;
+
     public String getInputDirectory() {
         return inputDirectory;
     }
 
     public void setInputDirectory(String name) {
         this.inputDirectory = name;
+    }
+
+    public String getTimeline() {
+        return timeline;
+    }
+
+    public String getTimeCreatedXPath() {
+        return timeCreatedXPath;
+    }
+
+    public String getDefaultElementNamespace() {
+        return defaultElementNamespace;
     }
 }
 

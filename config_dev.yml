@@ -7,3 +7,6 @@ server:
         port: 8085
 
 inputDirectory: /home/jc064522/.timeline-loader/inputDirectory
+timeline: timeline
+timeCreatedXPath: //TimeCreated
+defaultElementNamespace: file://xml/schema/accounting/events
