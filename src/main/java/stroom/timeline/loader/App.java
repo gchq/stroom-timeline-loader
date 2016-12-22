@@ -28,8 +28,10 @@ public class App extends Application<Config> {
 
     @Override
     public void run(Config config, Environment environment) {
-        injector = Guice.createInjector(new Module(config));
+        Api api = new Api();
+        environment.jersey().register(api);
 
+        injector = Guice.createInjector(new Module(config));
         environment.healthChecks().register("DirectoryWatcher",
                 new DirectoryWatcherHealthCheck(injector.getInstance(DirectoryWatcher.class)));
 
